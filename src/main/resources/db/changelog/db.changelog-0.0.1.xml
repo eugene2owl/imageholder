@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="id.type" value="BIGINT"/>
+    <property name="string.type" value="VARCHAR(255)"/>
+    <property name="string55.type" value="VARCHAR(55)"/>
+    <property name="timestamp.type" value="TIMESTAMP"/>
+
+    <changeSet id="CREATE_IMAGES_TABLE" author="e.ivanov@epam.com">
+        <createTable tableName="IMAGES">
+            <column name="ID" type="${id.type}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="UUID" type="${string.type}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="IMAGES_UUID_UNIQUE"/>
+            </column>
+            <column name="NAME" type="${string.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_UPDATED_AT" type="${timestamp.type}"/>
+            <column name="SIZE" type="${id.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EXTENSION" type="${string55.type}"/>
+        </createTable>
+
+        <createSequence sequenceName="SEQ_IMAGES" startValue="30"/>
+    </changeSet>
+</databaseChangeLog>
