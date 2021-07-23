@@ -3,7 +3,9 @@ package com.example.imageholder.images.service.impl;
 import com.example.imageholder.aws.sqs.AwsSQSService;
 import com.example.imageholder.images.service.ImageNotifier;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ScheduledImageNotifier implements ImageNotifier {
 
     private final AwsSQSService awsSQSService;
