@@ -1,10 +1,10 @@
-package com.example.imageholder.s3.impl;
+package com.example.imageholder.aws.s3.impl;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.example.imageholder.s3.AwsS3FileService;
-import com.example.imageholder.s3.S3BucketNameProvider;
+import com.example.imageholder.aws.s3.AwsS3FileService;
+import com.example.imageholder.aws.s3.AwsS3BucketNameProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -32,12 +32,12 @@ public class AwsS3FileServiceImpl implements AwsS3FileService {
     private static final String SEPARATOR_BETWEEN_FOLDERS = File.separator;
 
     private AmazonS3 awsS3Client;
-    private S3BucketNameProvider s3BucketNameProvider;
+    private AwsS3BucketNameProvider awsS3BucketNameProvider;
 
     @Autowired
-    public AwsS3FileServiceImpl(AmazonS3 awsS3Client, S3BucketNameProvider s3BucketNameProvider) {
+    public AwsS3FileServiceImpl(AmazonS3 awsS3Client, AwsS3BucketNameProvider awsS3BucketNameProvider) {
         this.awsS3Client = awsS3Client;
-        this.s3BucketNameProvider = s3BucketNameProvider;
+        this.awsS3BucketNameProvider = awsS3BucketNameProvider;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class AwsS3FileServiceImpl implements AwsS3FileService {
     public Resource download(String s3FilePath) {
         try {
             return new InputStreamResource(
-                    awsS3Client.getObject(s3BucketNameProvider.provideS3BucketName(), s3FilePath).getObjectContent()
+                    awsS3Client.getObject(awsS3BucketNameProvider.provideS3BucketName(), s3FilePath).getObjectContent()
             );
         } catch (AmazonClientException amazonClientException) {
             log.error("Error downloading file from aws s3 bucket", amazonClientException);
@@ -84,7 +84,7 @@ public class AwsS3FileServiceImpl implements AwsS3FileService {
             objectMetadata.setContentDisposition("attachment; filename=".concat(fileName));
             objectMetadata.setContentType(contentType);
             awsS3Client.putObject(
-                    s3BucketNameProvider.provideS3BucketName(),
+                    awsS3BucketNameProvider.provideS3BucketName(),
                     awsS3FilePath,
                     inputStream,
                     objectMetadata

@@ -1,4 +1,4 @@
-package com.example.imageholder.s3.properties;
+package com.example.imageholder.aws.s3.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ public class AwsS3Properties {
 
     private String bucket;
 
-    public String getBucketName() {
+    public String getBucket() {
         return bucket;
     }
 

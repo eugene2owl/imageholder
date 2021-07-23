@@ -1,4 +1,4 @@
-package com.example.imageholder.s3;
+package com.example.imageholder.aws.s3;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;

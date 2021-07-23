@@ -1,4 +1,4 @@
-package com.example.imageholder.conf;
+package com.example.imageholder.configuration;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;

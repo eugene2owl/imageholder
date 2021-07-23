@@ -1,4 +1,4 @@
-package com.example.imageholder.s3.properties;
+package com.example.imageholder.aws.common;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
