@@ -1,5 +1,6 @@
-package com.example.imageholder.model;
+package com.example.imageholder.images.model;
 
+import com.example.imageholder.model.BaseEntity;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.Entity;

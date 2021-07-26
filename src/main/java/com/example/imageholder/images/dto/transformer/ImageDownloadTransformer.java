@@ -1,7 +1,7 @@
 package com.example.imageholder.images.dto.transformer;
 
 import com.example.imageholder.images.dto.ImageDownloadDto;
-import com.example.imageholder.model.Image;
+import com.example.imageholder.images.model.Image;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 

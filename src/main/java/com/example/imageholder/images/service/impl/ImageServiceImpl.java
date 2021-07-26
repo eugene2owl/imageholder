@@ -6,7 +6,7 @@ import com.example.imageholder.images.dto.transformer.ImageDownloadTransformer;
 import com.example.imageholder.images.dto.transformer.ImageMetadataTransformer;
 import com.example.imageholder.images.repository.ImageRepository;
 import com.example.imageholder.images.service.ImageService;
-import com.example.imageholder.model.Image;
+import com.example.imageholder.images.model.Image;
 import com.example.imageholder.aws.s3.AwsS3FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

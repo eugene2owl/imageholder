@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <property name="id.type" value="BIGINT"/>
+    <property name="string.type" value="VARCHAR(255)"/>
+
+    <changeSet id="CREATE_IMAGE_NOTIFICATION_SUBSCRIPTIONS_TABLE" author="e.ivanov@epam.com">
+        <createTable tableName="IMAGE_NOTIFICATION_SUBSCRIPTIONS">
+            <column name="ID" type="${id.type}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="UUID" type="${string.type}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="IMAGE_NOTIFICATION_SUBSCRIPTIONS_UUID_UNIQUE"/>
+            </column>
+            <column name="EMAIL" type="${string.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SUBSCRIPTION_ARN" type="${string.type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOPIC_ARN" type="${string.type}">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="SEQ_IMAGE_NOTIFICATION_SUBSCRIPTIONS" startValue="30"/>
+    </changeSet>
+</databaseChangeLog>
