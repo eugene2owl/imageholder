@@ -10,22 +10,21 @@ import javax.persistence.MappedSuperclass;
 import static java.util.UUID.randomUUID;
 import static javax.persistence.GenerationType.SEQUENCE;
 
-@JsonIgnoreProperties(ignoreUnknown = true, value = { "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"hibernateLazyInitializer", "handler"})
 @MappedSuperclass
-@EqualsAndHashCode(exclude = { "uuid" })
+@EqualsAndHashCode(exclude = {"uuid"})
 public abstract class BaseEntity implements BaseIdentifiable {
 
     public static final int ALLOCATION_SIZE = 1;
-    public static final String ID_FIELD_NAME = "id";
 
     @Id
     @GeneratedValue(generator = "sequence", strategy = SEQUENCE)
-    private long id;
+    private Long id;
 
     private final String uuid;
 
     @Override
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

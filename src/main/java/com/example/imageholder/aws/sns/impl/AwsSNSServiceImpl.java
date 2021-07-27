@@ -2,10 +2,11 @@ package com.example.imageholder.aws.sns.impl;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.model.PublishRequest;
+import com.amazonaws.services.sns.model.PublishResult;
 import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.amazonaws.services.sns.model.UnsubscribeRequest;
 import com.example.imageholder.aws.sns.AwsSNSService;
-import com.example.imageholder.aws.sns.AwsSNSTopicNameProvider;
 import com.example.imageholder.imagenotificationsubscription.dto.ImageNotificationSubscriptionResultDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,13 +54,28 @@ public class AwsSNSServiceImpl implements AwsSNSService {
         }
     }
 
+    @Override
+    public void publishMessage(String message, String topicArn) {
+        try {
+            PublishRequest request = new PublishRequest()
+                    .withMessage(message)
+                    .withTopicArn(topicArn);
+            PublishResult result = amazonSNSClient.publish(request);
+
+            log.info("Message sending status was " + result.getSdkHttpMetadata().getHttpStatusCode());
+            log.info("Message id: " + result.getMessageId());
+        } catch (AmazonClientException amazonClientException) {
+            log.error("Error sending message to the SNS topic ", amazonClientException);
+            throw amazonClientException;
+        }
+    }
+
     private SubscribeRequest buildSubscribeRequest(String email, String topicArn) {
-        var request = new SubscribeRequest();
-        request.setProtocol(EMAIL_SUBSCRIPTION_PROTOCOL);
-        request.setEndpoint(email);
-        request.setReturnSubscriptionArn(true);
-        request.setTopicArn(topicArn);
-        return request;
+        return new SubscribeRequest()
+                .withProtocol(EMAIL_SUBSCRIPTION_PROTOCOL)
+                .withEndpoint(email)
+                .withReturnSubscriptionArn(true)
+                .withTopicArn(topicArn);
     }
 
     private ImageNotificationSubscriptionResultDto buildSubscribeResult(

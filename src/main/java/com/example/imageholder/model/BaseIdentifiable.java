@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface BaseIdentifiable extends Serializable {
 
-    long getId();
+    Long getId();
 
     String getUuid();
 }

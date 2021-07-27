@@ -7,4 +7,6 @@ public interface AwsSNSService {
     ImageNotificationSubscriptionResultDto subscribeEmail(String email, String topicArn);
 
     void unsubscribeByArn(String subscriptionArn);
+
+    void publishMessage(String message, String topicArn);
 }

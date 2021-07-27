@@ -1,13 +1,13 @@
 package com.example.imageholder.images.service.impl;
 
+import com.example.imageholder.aws.s3.AwsS3FileService;
 import com.example.imageholder.images.dto.ImageDownloadDto;
 import com.example.imageholder.images.dto.ImageMetadataDto;
 import com.example.imageholder.images.dto.transformer.ImageDownloadTransformer;
 import com.example.imageholder.images.dto.transformer.ImageMetadataTransformer;
+import com.example.imageholder.images.model.Image;
 import com.example.imageholder.images.repository.ImageRepository;
 import com.example.imageholder.images.service.ImageService;
-import com.example.imageholder.images.model.Image;
-import com.example.imageholder.aws.s3.AwsS3FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,10 +37,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageDownloadDto getById(Long id) {
+    public ImageDownloadDto getDownloadDtoById(Long id) {
         var image = findImageOrThrow(id);
         var body = awsS3FileService.download(image.getName());
         return downloadTransformer.transform(image, body);
+    }
+
+    @Override
+    public Image getByName(String name) {
+        return repository.findByName(name).orElseThrow(() -> new RuntimeException("Image not found by name " + name));
     }
 
     @Override

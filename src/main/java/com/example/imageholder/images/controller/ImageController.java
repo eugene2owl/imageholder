@@ -38,7 +38,7 @@ public class ImageController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Resource> getById(@PathVariable Long id) {
-        var dto = service.getById(id);
+        var dto = service.getDownloadDtoById(id);
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(dto.getContentType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dto.getName() + "\"")
