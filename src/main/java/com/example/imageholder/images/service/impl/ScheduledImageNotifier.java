@@ -8,6 +8,7 @@ import com.example.imageholder.aws.sqs.AwsSQSService;
 import com.example.imageholder.aws.sqs.impl.AwsSQSMessageBodyParser;
 import com.example.imageholder.images.service.ImageNotifier;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Slf4j
 @Component
+@ConditionalOnProperty(value = "imageNotifier.enabled", havingValue = "true")
 public class ScheduledImageNotifier implements ImageNotifier {
 
     private final AwsSQSService awsSQSService;
@@ -37,7 +39,7 @@ public class ScheduledImageNotifier implements ImageNotifier {
         this.awsSQSMessageBodyParser = awsSQSMessageBodyParser;
     }
 
-    @Scheduled(fixedDelayString = "${quartz.sqs.fixedDelay.in.milliseconds}")
+    @Scheduled(fixedDelayString = "${imageNotifier.fixedDelay.in.milliseconds}")
     @Override
     public void notifyAboutNewlyUploadedImages() {
         var messages = awsSQSService.receiveMessagesFromQueue();
