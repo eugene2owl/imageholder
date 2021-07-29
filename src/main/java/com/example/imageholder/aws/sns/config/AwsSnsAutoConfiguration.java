@@ -1,6 +1,5 @@
 package com.example.imageholder.aws.sns.config;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sns.AmazonSNS;
 import com.amazonaws.services.sns.AmazonSNSClientBuilder;
@@ -31,7 +30,6 @@ public class AwsSnsAutoConfiguration {
     public AmazonSNS awsSNSClient() {
         return AmazonSNSClientBuilder
                 .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsProperties.buildCredentials()))
                 .withRegion(Regions.fromName(awsProperties.getRegion()))
                 .build();
     }

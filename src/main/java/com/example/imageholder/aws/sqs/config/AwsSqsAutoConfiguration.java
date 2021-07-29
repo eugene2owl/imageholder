@@ -1,6 +1,5 @@
 package com.example.imageholder.aws.sqs.config;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
@@ -31,7 +30,6 @@ public class AwsSqsAutoConfiguration {
     public AmazonSQS awsSQSClient() {
         return AmazonSQSClientBuilder
                 .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsProperties.buildCredentials()))
                 .withRegion(Regions.fromName(awsProperties.getRegion()))
                 .build();
     }

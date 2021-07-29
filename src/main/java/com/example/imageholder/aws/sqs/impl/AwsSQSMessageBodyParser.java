@@ -21,6 +21,7 @@ public class AwsSQSMessageBodyParser {
         this.objectMapper = objectMapper;
     }
 
+    // There might be just used already existing class com.amazonaws.services.s3.event.S3EventNotification
     public String extractFileKeyFromS3Message(Message message) {
         try {
             var bodyAsMap = objectMapper.readValue(message.getBody(), HashMap.class);

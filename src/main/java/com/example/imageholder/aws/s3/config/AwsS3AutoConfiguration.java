@@ -1,11 +1,9 @@
 package com.example.imageholder.aws.s3.config;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.example.imageholder.aws.common.AwsProperties;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,20 +17,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ConditionalOnProperty(value = "aws.s3.enabled", havingValue = "true")
 public class AwsS3AutoConfiguration {
 
-    private final AwsProperties awsProperties;
-
-    @Autowired
-    public AwsS3AutoConfiguration(AwsProperties awsProperties) {
-        this.awsProperties = awsProperties;
-    }
-
     @Primary
     @Bean
-    public AmazonS3 awsS3Client() {
+    public AmazonS3 awsS3Client(@Value("${aws.region}") String region) {
         return AmazonS3ClientBuilder
                 .standard()
-                .withCredentials(new AWSStaticCredentialsProvider(awsProperties.buildCredentials()))
-                .withRegion(Regions.fromName(awsProperties.getRegion()))
+                .withRegion(Regions.fromName(region))
                 .build();
     }
 }
