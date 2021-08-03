@@ -1,6 +1,6 @@
 package com.example.imageholder.images.service;
 
-public interface ImageNotifier {
+public interface ImageEventNotifier {
 
     void notifyAboutNewlyUploadedImages();
 }

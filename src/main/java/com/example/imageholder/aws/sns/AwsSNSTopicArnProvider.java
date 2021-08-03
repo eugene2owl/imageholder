@@ -1,6 +1,6 @@
 package com.example.imageholder.aws.sns;
 
-public interface AwsSNSTopicNameProvider {
+public interface AwsSNSTopicArnProvider {
 
     String provideSNSTopicArn();
 }

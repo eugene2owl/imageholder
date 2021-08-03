@@ -1,7 +1,7 @@
 package com.example.imageholder.imagenotificationsubscription.service.impl;
 
 import com.example.imageholder.aws.sns.AwsSNSService;
-import com.example.imageholder.aws.sns.AwsSNSTopicNameProvider;
+import com.example.imageholder.aws.sns.AwsSNSTopicArnProvider;
 import com.example.imageholder.imagenotificationsubscription.dto.transformer.ImageNotificationSubscriptionResultTransformer;
 import com.example.imageholder.imagenotificationsubscription.repository.ImageNotificationSubscriptionRepository;
 import com.example.imageholder.imagenotificationsubscription.service.ImageNotificationSubscriptionService;
@@ -17,7 +17,7 @@ public class ImageNotificationSubscriptionServiceImpl implements ImageNotificati
     private final ImageNotificationSubscriptionRepository repository;
     private final AwsSNSService awsSNSService;
     private final ImageNotificationSubscriptionResultTransformer transformer;
-    private final AwsSNSTopicNameProvider awsSNSTopicNameProvider;
+    private final AwsSNSTopicArnProvider awsSNSTopicArnProvider;
     private final ImageNotificationSubscriptionValidator validator;
 
     @Autowired
@@ -25,19 +25,19 @@ public class ImageNotificationSubscriptionServiceImpl implements ImageNotificati
             ImageNotificationSubscriptionRepository repository,
             AwsSNSService awsSNSService,
             ImageNotificationSubscriptionResultTransformer transformer,
-            AwsSNSTopicNameProvider awsSNSTopicNameProvider,
+            AwsSNSTopicArnProvider awsSNSTopicArnProvider,
             ImageNotificationSubscriptionValidator validator
     ) {
         this.repository = repository;
         this.awsSNSService = awsSNSService;
         this.transformer = transformer;
-        this.awsSNSTopicNameProvider = awsSNSTopicNameProvider;
+        this.awsSNSTopicArnProvider = awsSNSTopicArnProvider;
         this.validator = validator;
     }
 
     @Override
     public void subscribeEmail(String email) {
-        var topicArn = awsSNSTopicNameProvider.provideSNSTopicArn();
+        var topicArn = awsSNSTopicArnProvider.provideSNSTopicArn();
         validator.validateSubscription(email, topicArn);
 
         var result = awsSNSService.subscribeEmail(email, topicArn);
@@ -48,7 +48,7 @@ public class ImageNotificationSubscriptionServiceImpl implements ImageNotificati
     @Override
     @Transactional
     public void unsubscribeEmail(String email) {
-        var topicArn = awsSNSTopicNameProvider.provideSNSTopicArn();
+        var topicArn = awsSNSTopicArnProvider.provideSNSTopicArn();
         validator.validateUnsubscription(email, topicArn);
 
         var subscriptionArn = getSubscriptionArnByEmailAndTopicArn(email, topicArn);
