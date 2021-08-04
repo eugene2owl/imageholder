@@ -35,7 +35,7 @@ dependencies {
 	implementation "com.amazonaws:aws-java-sdk-s3:$aws_version"
 	implementation "com.amazonaws:aws-java-sdk-sqs:$aws_version"
 	implementation "com.amazonaws:aws-java-sdk-sns:$aws_version"
-	implementation "com.amazonaws:aws-java-sdk-sts:$aws_version"
+	implementation "com.amazonaws:aws-java-sdk-lambda:$aws_version"
 
 	compileOnly "org.projectlombok:lombok"
 	runtimeOnly "org.postgresql:postgresql"

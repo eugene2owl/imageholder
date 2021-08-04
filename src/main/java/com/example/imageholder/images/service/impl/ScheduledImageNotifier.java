@@ -6,7 +6,7 @@ import com.example.imageholder.aws.sns.AwsSNSService;
 import com.example.imageholder.aws.sns.AwsSNSTopicArnProvider;
 import com.example.imageholder.aws.sqs.AwsSQSService;
 import com.example.imageholder.aws.sqs.impl.AwsSQSMessageBodyParser;
-import com.example.imageholder.images.service.ImageEventNotifier;
+import com.example.imageholder.images.service.ImageEventNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @Component
 @ConditionalOnProperty(value = "imageNotifier.scheduled.enabled", havingValue = "true")
-public class ScheduledImageNotifier implements ImageEventNotifier {
+public class ScheduledImageNotifier implements ImageEventNotificationService {
 
     private final AwsSQSService awsSQSService;
     private final AwsSNSService awsSNSService;
@@ -39,14 +39,23 @@ public class ScheduledImageNotifier implements ImageEventNotifier {
         this.awsSQSMessageBodyParser = awsSQSMessageBodyParser;
     }
 
+    /**
+     * Notifies about newly uploaded to S3 bucket images.
+     * Runs by schedule if enabled.
+     * Event messages about newly uploaded images are read and deleted from SQS queue.
+     * Notifications with images metadata are sent to the SNS topic.
+     *
+     * @return message with amount of processed messages.
+     */
     @Scheduled(fixedDelayString = "${imageNotifier.scheduled.fixedDelay.in.milliseconds}")
     @Override
-    public void notifyAboutNewlyUploadedImages() {
+    public String notifyAboutNewlyUploadedImages() {
         var messages = awsSQSService.receiveMessagesFromQueue();
         if (!messages.isEmpty()) {
             publishNotifications(messages);
             awsSQSService.deleteMessagesFromQueue(messages);
         }
+        return messages.size() + " SQS messages has been processed.";
     }
 
     private void publishNotifications(List<Message> messages) {
