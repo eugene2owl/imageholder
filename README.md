@@ -21,6 +21,7 @@ Application stores metadata of the images in the database, and their content in 
 
 ## Integration with AWS SQS
 Application does poll messages from SQS queue, parse and process them.
+It uses long polling and batch technologies while polling messages from the queue.
 
 ## Integration with AWS SNS
 Application does build notifications with appropriate text and sends them to SNS topic.
