@@ -21,10 +21,13 @@ Application stores metadata of the images in the database, and their content in 
 
 ## Integration with AWS SQS
 Application does poll messages from SQS queue, parse and process them.
-It uses long polling and batch technologies while polling messages from the queue.
+It uses long polling and batching technologies while polling messages from the queue.
 
 ## Integration with AWS SNS
 Application does build notifications with appropriate text and sends them to SNS topic.
 
 ### Email received by email subscribed on the SNS topic
 <img src="https://raw.githubusercontent.com/eugene2owl/imageholder/main/src/assets/sns-email.png" alt="drawing" width="800"/>
+
+## Integration with AWS Lambda
+Application does call Lambda function using AWS SDK client for the Lambda service (as it does for all other AWS services too).
